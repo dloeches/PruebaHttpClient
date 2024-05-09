@@ -4,10 +4,10 @@ using System.Text.Json;
 using System.Text;
 
 
-using (var client = new HttpClient())
+using (HttpClient client = new HttpClient())
 {
 
-    using StringContent jsonContent = new(
+     StringContent jsonContent = new(
        JsonSerializer.Serialize(new
        {
            id = 1,
@@ -15,7 +15,7 @@ using (var client = new HttpClient())
        }),
        Encoding.UTF8, "application/json");
 
-    HttpResponseMessage response = await client.PostAsync("https://petstore.swagger.io/v2/pet", jsonContent);
+    using HttpResponseMessage response = await client.PostAsync("https://petstore.swagger.io/v2/pet", jsonContent);
     string jsonString = await response.Content.ReadAsStringAsync();
     response.EnsureSuccessStatusCode();
     string responseBody = response.Content.ReadAsStringAsync().Result;
